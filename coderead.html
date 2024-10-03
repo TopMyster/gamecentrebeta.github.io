@@ -98,13 +98,17 @@
     .actions button {
       margin: 0 10px;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <h1>CodeRead - Enhanced Code Editor</h1>
 
-  <div class="editor-container">
+  <div id="editorContainer" class="editor-container">
     <div class="code-section">
       <h3>HTML</h3>
       <textarea id="htmlCode" placeholder="Write HTML here..."></textarea>
@@ -124,6 +128,7 @@
   <div class="actions">
     <button id="runButton">Run Code</button>
     <button id="downloadButton">Download Code</button>
+    <button id="editButton" class="hidden">Edit Code</button>
   </div>
 
   <iframe id="output" class="output-section"></iframe>
@@ -158,14 +163,23 @@
       const htmlCode = document.getElementById('htmlCode').value;
       const cssCode = "<style>" + document.getElementById('cssCode').value + "</style>";
       const jsCode = "<script>" + document.getElementById('jsCode').value + "<\/script>"; // Escape </script> to prevent parsing errors
-
-      const outputCode = htmlCode + cssCode + jsCode;
+</script>
+  <script>
+      const outputCode = htmlCode + cssCode;
 
       const outputFrame = document.getElementById('output');
       const outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
       outputDoc.open();
       outputDoc.write(outputCode);
       outputDoc.close();
+
+      const scriptTag = document.createElement('script');
+      scriptTag.innerHTML = document.getElementById('jsCode').value;
+      outputFrame.contentDocument.body.appendChild(scriptTag);
+
+      // Hide the code editor and show the "Edit Code" button
+      document.getElementById('editorContainer').classList.add('hidden');
+      document.getElementById('editButton').classList.remove('hidden');
     });
 
     // Function to download the code as an HTML file
@@ -184,6 +198,12 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    });
+
+    // Show the editor when "Edit Code" button is clicked
+    document.getElementById('editButton').addEventListener('click', function () {
+      document.getElementById('editorContainer').classList.remove('hidden');
+      document.getElementById('editButton').classList.add('hidden');
     });
 
     // Load the code when the page loads
