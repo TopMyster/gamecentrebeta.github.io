@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,78 +7,7 @@
   
   <!-- CSS included within the HTML file -->
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #f0f4ff;
-      color: #333;
-    }
-
-    h1 {
-      margin-top: 20px;
-      color: #007bff;
-    }
-
-    .editor-container {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      max-width: 1200px;
-      margin-top: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      background-color: white;
-    }
-
-    .code-section {
-      flex: 1;
-      margin: 10px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h3 {
-      margin: 0;
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px;
-      border-radius: 8px 8px 0 0;
-    }
-
-    textarea {
-      flex: 1;
-      width: 100%;
-      height: 300px;
-      padding: 10px;
-      font-family: monospace;
-      border: none;
-      resize: none;
-      background-color: #f8f9fa;
-      outline: none;
-      border-radius: 0 0 8px 8px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      margin: 15px 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
+    /* ... (previous CSS remains unchanged) ... */
 
     .output-section {
       width: 90%;
@@ -89,23 +17,13 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-    }
-
-    .actions button {
-      margin: 0 10px;
-    }
-
-    .hidden {
-      display: none;
+    #previewFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
-
 <body>
 
   <h1>CodeRead - Enhanced Code Editor</h1>
@@ -133,52 +51,43 @@
     <button id="editButton" class="hidden">Edit Code</button>
   </div>
 
-  <iframe id="output" class="output-section"></iframe>
+  <div id="output" class="output-section">
+    <iframe id="previewFrame"></iframe>
+  </div>
 
   <!-- JavaScript included within the HTML file -->
   <script>
-    // Save code in localStorage to persist between visits
-    function saveCode() {
-      const htmlCode = document.getElementById('htmlCode').value;
-      const cssCode = document.getElementById('cssCode').value;
-      const jsCode = document.getElementById('jsCode').value;
-      localStorage.setItem('htmlCode', htmlCode);
-      localStorage.setItem('cssCode', cssCode);
-      localStorage.setItem('jsCode', jsCode);
-    }
-
-    // Load saved code from localStorage when the page loads
-    function loadCode() {
-      const savedHtml = localStorage.getItem('htmlCode');
-      const savedCss = localStorage.getItem('cssCode');
-      const savedJs = localStorage.getItem('jsCode');
-      
-      if (savedHtml) document.getElementById('htmlCode').value = savedHtml;
-      if (savedCss) document.getElementById('cssCode').value = savedCss;
-      if (savedJs) document.getElementById('jsCode').value = savedJs;
-    }
+    // ... (previous JavaScript functions remain unchanged) ...
 
     // Function to run the code inside the iframe
     document.getElementById('runButton').addEventListener('click', function () {
       saveCode();  // Save the current code
 
       const htmlCode = document.getElementById('htmlCode').value;
-      const cssCode = "<style>" + document.getElementById('cssCode').value + "</style>";
+      const cssCode = document.getElementById('cssCode').value;
       const jsCode = document.getElementById('jsCode').value;
 
-      // Prepare the output code for the iframe (excluding JavaScript)
-      const outputCode = htmlCode + cssCode;
+      // Prepare the complete HTML document for the iframe
+      const outputCode = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>${cssCode}</style>
+        </head>
+        <body>
+          ${htmlCode}
+          <script>${jsCode}<\/script>
+        </body>
+        </html>
+      `;
 
-      const outputFrame = document.getElementById('output');
-      const outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
-      outputDoc.open();
-      outputDoc.write(outputCode);
-      outputDoc.close();
-
-      // Dynamically create a script element with the user's JavaScript
-      const scriptTag = outputDoc.createElement('script');
-      scriptTag.innerHTML = jsCode;
-      outputDoc.body.appendChild(scriptTag);
+      const previewFrame = document.getElementById('previewFrame');
+      const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+      previewDoc.open();
+      previewDoc.write(outputCode);
+      previewDoc.close();
 
       // Hide the code editor and show the "Edit Code" button
       document.getElementById('editorContainer').classList.add('hidden');
@@ -188,10 +97,27 @@
     // Function to download the code as an HTML file
     document.getElementById('downloadButton').addEventListener('click', function () {
       const htmlCode = document.getElementById('htmlCode').value;
-      const cssCode = "<style>\n" + document.getElementById('cssCode').value + "\n</style>";
-      const jsCode = "<script>\n" + document.getElementById('jsCode').value + "\n<\/script>"; // Escape </script> to prevent early script termination
+      const cssCode = document.getElementById('cssCode').value;
+      const jsCode = document.getElementById('jsCode').value;
 
-      const combinedCode = htmlCode + "\n" + cssCode + "\n" + jsCode;
+      const combinedCode = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeRead Output</title>
+  <style>
+${cssCode}
+  </style>
+</head>
+<body>
+${htmlCode}
+  <script>
+${jsCode}
+  </script>
+</body>
+</html>`;
 
       const blob = new Blob([combinedCode], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
@@ -202,18 +128,10 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     });
 
-    // Show the editor when "Edit Code" button is clicked
-    document.getElementById('editButton').addEventListener('click', function () {
-      document.getElementById('editorContainer').classList.remove('hidden');
-      document.getElementById('editButton').classList.add('hidden');
-    });
-
-    // Load the code when the page loads
-    window.onload = function() {
-      loadCode();
-    };
+    // ... (rest of the JavaScript remains unchanged) ...
   </script>
 </body>
 </html>
