@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,6 +105,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>CodeRead - Enhanced Code Editor</h1>
@@ -162,9 +164,9 @@
 
       const htmlCode = document.getElementById('htmlCode').value;
       const cssCode = "<style>" + document.getElementById('cssCode').value + "</style>";
-      const jsCode = "<script>" + document.getElementById('jsCode').value + "<\/script>"; // Escape </script> to prevent parsing errors
-</script>
-  <script>
+      const jsCode = document.getElementById('jsCode').value;
+
+      // Prepare the output code for the iframe (excluding JavaScript)
       const outputCode = htmlCode + cssCode;
 
       const outputFrame = document.getElementById('output');
@@ -173,9 +175,10 @@
       outputDoc.write(outputCode);
       outputDoc.close();
 
-      const scriptTag = document.createElement('script');
-      scriptTag.innerHTML = document.getElementById('jsCode').value;
-      outputFrame.contentDocument.body.appendChild(scriptTag);
+      // Dynamically create a script element with the user's JavaScript
+      const scriptTag = outputDoc.createElement('script');
+      scriptTag.innerHTML = jsCode;
+      outputDoc.body.appendChild(scriptTag);
 
       // Hide the code editor and show the "Edit Code" button
       document.getElementById('editorContainer').classList.add('hidden');
@@ -186,7 +189,8 @@
     document.getElementById('downloadButton').addEventListener('click', function () {
       const htmlCode = document.getElementById('htmlCode').value;
       const cssCode = "<style>\n" + document.getElementById('cssCode').value + "\n</style>";
-      const jsCode = "<script>\n" + document.getElementById('jsCode').value + "\n</script>";
+      const jsCode = "<script>\n" + document.getElementById('jsCode').value + "\n<\/script>"; // Escape </script> to prevent early script termination
+
       const combinedCode = htmlCode + "\n" + cssCode + "\n" + jsCode;
 
       const blob = new Blob([combinedCode], { type: 'text/html' });
