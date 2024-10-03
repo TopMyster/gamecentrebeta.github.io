@@ -130,14 +130,42 @@
 
   <!-- JavaScript included within the HTML file -->
   <script>
-    // Function to run code in the iframe
+    // Save code in localStorage to persist between visits
+    function saveCode() {
+      const htmlCode = document.getElementById('htmlCode').value;
+      const cssCode = document.getElementById('cssCode').value;
+      const jsCode = document.getElementById('jsCode').value;
+      localStorage.setItem('htmlCode', htmlCode);
+      localStorage.setItem('cssCode', cssCode);
+      localStorage.setItem('jsCode', jsCode);
+    }
+
+    // Load saved code from localStorage when the page loads
+    function loadCode() {
+      const savedHtml = localStorage.getItem('htmlCode');
+      const savedCss = localStorage.getItem('cssCode');
+      const savedJs = localStorage.getItem('jsCode');
+      
+      if (savedHtml) document.getElementById('htmlCode').value = savedHtml;
+      if (savedCss) document.getElementById('cssCode').value = savedCss;
+      if (savedJs) document.getElementById('jsCode').value = savedJs;
+    }
+
+    // Function to run the code inside the iframe
     document.getElementById('runButton').addEventListener('click', function () {
+      saveCode();  // Save the current code
+
       const htmlCode = document.getElementById('htmlCode').value;
       const cssCode = "<style>" + document.getElementById('cssCode').value + "</style>";
-      const jsCode = "<script>" + document.getElementById('jsCode').value + "</script>";
+      const jsCode = "<script>" + document.getElementById('jsCode').value + "<\/script>"; // Escape </script> to prevent parsing errors
+
       const outputCode = htmlCode + cssCode + jsCode;
+
       const outputFrame = document.getElementById('output');
-      outputFrame.contentDocument.body.innerHTML = outputCode;
+      const outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+      outputDoc.open();
+      outputDoc.write(outputCode);
+      outputDoc.close();
     });
 
     // Function to download the code as an HTML file
@@ -157,6 +185,11 @@
       link.click();
       document.body.removeChild(link);
     });
+
+    // Load the code when the page loads
+    window.onload = function() {
+      loadCode();
+    };
   </script>
 </body>
 </html>
