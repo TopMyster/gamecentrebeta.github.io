@@ -14,8 +14,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             color: white;
         }
 
@@ -23,23 +22,26 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
-
-        
 
         .navbar a img {
             width: 100px;
             height: 50px;
             border-radius: 10px;
             cursor: pointer;
-            
+        }
+
+        h1 {
+            margin-bottom: 20px;
         }
 
         .games-container {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 30px;
+            max-width: 800px;
+            width: 100%;
         }
 
         .game {
@@ -62,94 +64,49 @@
 <body>
     <!-- Navigation Bar -->
     <div class="navbar">
-        <a href="main.html">
-            <img src="home.png" alt="Home" />
-        </a>
-        <a href="crazygames.html">
-            <img src="cg.png" alt="CrazyGames" />
-        </a>
-        <a href="playstore.html">
-            <img src="playstore.png" alt="Play Store" />
-        </a>
-        <a href="TopMyster/gamecentrebeta.github.io/allapps">
-            <img src="allapps.png" alt="AllApps" />
-        </a>
-        <a href="settings.html">
-            <img src="settings.png" alt="Settings" />
-        </a>
-    <a href="https://forms.gle/DRM4LZuxFBmm4fgS9">
-                <img src="pre.png" alt="Premum">
-            </a>
-        
+        <a href="main.html"><img src="home.png" alt="Home" /></a>
+        <a href="crazygames.html"><img src="cg.png" alt="CrazyGames" /></a>
+        <a href="playstore.html"><img src="playstore.png" alt="Play Store" /></a>
+        <a href="TopMyster/gamecentrebeta.github.io/allapps"><img src="allapps.png" alt="AllApps" /></a>
+        <a href="settings.html"><img src="settings.png" alt="Settings" /></a>
+        <a href="https://forms.gle/DRM4LZuxFBmm4fgS9"><img src="pre.png" alt="Premium"></a>
     </div>
-
-
-    
 
     <!-- Game Section -->
     <h1>Home</h1>
     <div class="games-container">
         <div class="game">
-            <a href="retrobowl.html">
-                <img src="retrobowl.png" alt="Retro Bowl">
-            </a>
-            <div class="game-title"></div>
+            <a href="retrobowl.html"><img src="retrobowl.png" alt="Retro Bowl"></a>
         </div>
         <div class="game">
-            <a href="gunspin.html">
-                <img src="gunspin.png" alt="GunSpin">
-            </a>
-            <div class="game-title"></div>
+            <a href="gunspin.html"><img src="gunspin.png" alt="GunSpin"></a>
         </div>
         <div class="game">
-            <a href="bitlife.html">
-                <img src="bitlife.png" alt="BitLife">
-            </a>
-            <div class="game-title"></div>
+            <a href="bitlife.html"><img src="bitlife.png" alt="BitLife"></a>
         </div>
         <div class="game">
-            <a href="servertobs.html">
-                <img src="brawlstars.png" alt="Brawl Stars">
-            </a>
-            <div class="game">
-            <a href="https://www.easyfun.gg/games/brawl-stars.html?utm_source=youtube_kol&utm_medium=macrolo&utm_id=8000001">
-                <img src="" alt="Brawl Stars2">
-            </a>
-           
-            <div class="game">
-            <a href="servertoroblox.html">
-                <img src="roblox.png" alt="Roblox">
-            </a>
-            <div class="game-title"></div>
-            
-             <div class="game">
-            <a href="poki.html">
-                <img src="Poki.png" alt="Poki">
-            </a>
-            <div class="game-title"></div>
-            
-             <div class="game">
-            <a href="https://median.co/share/ermwor#iphone">
-                <img src="iphone.png" alt="iPhone">
-            </a>
-            <div class="game-title"></div>
-                  <div class="game">
-            <a href="ai.html">
-                <img src="ai.png" alt="ai">
-            </a>
-
-                       <div class="game-title"></div>
-                  <div class="game">
-            <a href="google.html">
-                <img src="google.png" alt="google">
-            </a>
-             <div class="game-title"></div>
-                  <div class="game">
-            <a href="krunker.html">
-                <img src="krunker.png" alt="krunker">
-            </a>
-           
+            <a href="servertobs.html"><img src="brawlstars.png" alt="Brawl Stars"></a>
         </div>
+        <div class="game">
+            <a href="https://www.easyfun.gg/games/brawl-stars.html?utm_source=youtube_kol&utm_medium=macrolo&utm_id=8000001"><img src="" alt="Brawl Stars2"></a>
+        </div>
+        <div class="game">
+            <a href="servertoroblox.html"><img src="roblox.png" alt="Roblox"></a>
+        </div>
+        <div class="game">
+            <a href="poki.html"><img src="Poki.png" alt="Poki"></a>
+        </div>
+        <div class="game">
+            <a href="https://median.co/share/ermwor#iphone"><img src="iphone.png" alt="iPhone"></a>
+        </div>
+        <div class="game">
+            <a href="ai.html"><img src="ai.png" alt="ai"></a>
+        </div>
+        <div class="game">
+            <a href="google.html"><img src="google.png" alt="google"></a>
+        </div>
+        <div class="game">
+            <a href="krunker.html"><img src="krunker.png" alt="krunker"></a>
         </div>
     </div>
 </body>
