@@ -101,8 +101,14 @@
             <a href="ai.html"><img src="ai.png" alt="ai"></a>
         </div>
         <div class="game">
-            <a href="google.html"><img src="google.png" alt="google"></a>
-        </div>
+        <img src="google.png" alt="google" onclick="openPopup()" style="cursor: pointer;">
+    </div>
+
+    <script>
+        function openPopup() {
+            window.open('google.html', 'GooglePopup', 'width=800,height=600');
+        }
+    </script>
         <div class="game">
             <a href="krunker.html"><img src="krunker.png" alt="krunker"></a>
         </div>
